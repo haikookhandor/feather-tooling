@@ -1,0 +1,8 @@
+add_executable(tests main.cc)
+target_link_libraries(tests PRIVATE fmt::fmt)
+target_compile_features(tests PRIVATE cxx_std_20)
+if(MSVC)
+  target_compile_options(tests PRIVATE /W4 /permissive-)
+else()
+  target_compile_options(tests PRIVATE -Wall -Wextra -Wpedantic)
+endif()
