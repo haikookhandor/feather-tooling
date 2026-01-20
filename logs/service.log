@@ -1,0 +1,6 @@
+[2026-01-20 16:54:01.777] [info] [t573521] Logging initialized. File: logs/service.log
+[2026-01-20 16:54:01.778] [info] [t573521] App starting up...
+[2026-01-20 16:54:01.778] [info] [t573521] AddNonNegative(2,3) = 5
+[2026-01-20 16:54:01.778] [warning] [t573521] Expected failure: inputs must be non-negative
+[2026-01-20 16:54:01.792] [info] [t573521] Dummy op elapsed: 13.866 ms
+[2026-01-20 16:54:01.792] [info] [t573521] App done.
