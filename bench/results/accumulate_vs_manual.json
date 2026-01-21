@@ -1,0 +1,162 @@
+{
+  "context": {
+    "date": "2026-01-21T16:40:45-06:00",
+    "host_name": "Haikoos-MacBook-Air.local",
+    "executable": "./build-rel/bench/bench_accumulate",
+    "num_cpus": 8,
+    "mhz_per_cpu": 24,
+    "cpu_scaling_enabled": false,
+    "caches": [
+      {
+        "type": "Data",
+        "level": 1,
+        "size": 65536,
+        "num_sharing": 0
+      },
+      {
+        "type": "Instruction",
+        "level": 1,
+        "size": 131072,
+        "num_sharing": 0
+      },
+      {
+        "type": "Unified",
+        "level": 2,
+        "size": 4194304,
+        "num_sharing": 1
+      }
+    ],
+    "load_avg": [4.01221,2.16943,1.71533],
+    "library_build_type": "release"
+  },
+  "benchmarks": [
+    {
+      "name": "BM_Accumulate_mean",
+      "family_index": 0,
+      "per_family_instance_index": 0,
+      "run_name": "BM_Accumulate",
+      "run_type": "aggregate",
+      "repetitions": 5,
+      "threads": 1,
+      "aggregate_name": "mean",
+      "aggregate_unit": "time",
+      "iterations": 5,
+      "real_time": 6.7722619162385026e+05,
+      "cpu_time": 6.7645128693994251e+05,
+      "time_unit": "ns",
+      "items_per_second": 1.4794069410520003e+09
+    },
+    {
+      "name": "BM_Accumulate_median",
+      "family_index": 0,
+      "per_family_instance_index": 0,
+      "run_name": "BM_Accumulate",
+      "run_type": "aggregate",
+      "repetitions": 5,
+      "threads": 1,
+      "aggregate_name": "median",
+      "aggregate_unit": "time",
+      "iterations": 5,
+      "real_time": 6.6422660439674731e+05,
+      "cpu_time": 6.6375977121067652e+05,
+      "time_unit": "ns",
+      "items_per_second": 1.5065691585617371e+09
+    },
+    {
+      "name": "BM_Accumulate_stddev",
+      "family_index": 0,
+      "per_family_instance_index": 0,
+      "run_name": "BM_Accumulate",
+      "run_type": "aggregate",
+      "repetitions": 5,
+      "threads": 1,
+      "aggregate_name": "stddev",
+      "aggregate_unit": "time",
+      "iterations": 5,
+      "real_time": 2.1278623154248853e+04,
+      "cpu_time": 2.0846641003487563e+04,
+      "time_unit": "ns",
+      "items_per_second": 4.4780042676513828e+07
+    },
+    {
+      "name": "BM_Accumulate_cv",
+      "family_index": 0,
+      "per_family_instance_index": 0,
+      "run_name": "BM_Accumulate",
+      "run_type": "aggregate",
+      "repetitions": 5,
+      "threads": 1,
+      "aggregate_name": "cv",
+      "aggregate_unit": "percentage",
+      "iterations": 5,
+      "real_time": 3.1420260198777986e-02,
+      "cpu_time": 3.0817652957379014e-02,
+      "time_unit": "ns",
+      "items_per_second": 3.0268914815737531e-02
+    },
+    {
+      "name": "BM_ManualLoop_mean",
+      "family_index": 1,
+      "per_family_instance_index": 0,
+      "run_name": "BM_ManualLoop",
+      "run_type": "aggregate",
+      "repetitions": 5,
+      "threads": 1,
+      "aggregate_name": "mean",
+      "aggregate_unit": "time",
+      "iterations": 5,
+      "real_time": 8.2710573462248663e+05,
+      "cpu_time": 7.6566473118279583e+05,
+      "time_unit": "ns",
+      "items_per_second": 1.3078512493036287e+09
+    },
+    {
+      "name": "BM_ManualLoop_median",
+      "family_index": 1,
+      "per_family_instance_index": 0,
+      "run_name": "BM_ManualLoop",
+      "run_type": "aggregate",
+      "repetitions": 5,
+      "threads": 1,
+      "aggregate_name": "median",
+      "aggregate_unit": "time",
+      "iterations": 5,
+      "real_time": 7.5248848601189326e+05,
+      "cpu_time": 7.5166881720430113e+05,
+      "time_unit": "ns",
+      "items_per_second": 1.3303731339013407e+09
+    },
+    {
+      "name": "BM_ManualLoop_stddev",
+      "family_index": 1,
+      "per_family_instance_index": 0,
+      "run_name": "BM_ManualLoop",
+      "run_type": "aggregate",
+      "repetitions": 5,
+      "threads": 1,
+      "aggregate_name": "stddev",
+      "aggregate_unit": "time",
+      "iterations": 5,
+      "real_time": 1.1510727354482193e+05,
+      "cpu_time": 3.2158697173674205e+04,
+      "time_unit": "ns",
+      "items_per_second": 5.3484345044158109e+07
+    },
+    {
+      "name": "BM_ManualLoop_cv",
+      "family_index": 1,
+      "per_family_instance_index": 0,
+      "run_name": "BM_ManualLoop",
+      "run_type": "aggregate",
+      "repetitions": 5,
+      "threads": 1,
+      "aggregate_name": "cv",
+      "aggregate_unit": "percentage",
+      "iterations": 5,
+      "real_time": 1.3916875282863322e-01,
+      "cpu_time": 4.2001016716540648e-02,
+      "time_unit": "ns",
+      "items_per_second": 4.0894822765689974e-02
+    }
+  ]
+}
