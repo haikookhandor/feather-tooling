@@ -1,5 +1,10 @@
 cmake_minimum_required(VERSION 3.25)
 project(FeatherTooling LANGUAGES CXX)
+# Tell CMake where Homebrew packages live (Apple Silicon)
+list(PREPEND CMAKE_PREFIX_PATH "/opt/homebrew")
+
+# Find gRPC (exports gRPC::grpc++, gRPC::grpc_cpp_plugin, etc.)
+find_package(gRPC CONFIG REQUIRED)
 
 # Homebrew Abseil
 find_package(absl CONFIG REQUIRED)
@@ -50,9 +55,12 @@ FetchContent_Declare(
 set(BENCHMARK_ENABLE_TESTING OFF CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(gbench)
 
+add_subdirectory(proto)
+add_subdirectory(server)
+add_subdirectory(client)
+
 # Our benchmarks
 add_subdirectory(bench)
-
 
 add_subdirectory(app)
 add_subdirectory(tests)

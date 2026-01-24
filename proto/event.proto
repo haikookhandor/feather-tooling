@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package feather;
+
+message Event {
+  string id  = 1;
+  double val = 2;
+  int64  ts  = 3; // epoch millis
+}
+
+message Ack {
+  bool ok    = 1;
+  string msg = 2;
+}
+
+service Ingest {
+  rpc Ingest(Event) returns (Ack);
+}
