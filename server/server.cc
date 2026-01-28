@@ -9,6 +9,12 @@
 
 #include "event.grpc.pb.h"
 
+#include <prometheus/exposer.h>
+#include <prometheus/registry.h>
+#include <prometheus/counter.h>
+#include <prometheus/histogram.h>
+#include <prometheus/serializer.h>
+
 using grpc::Server;
 using grpc::ServerBuilder;
 using grpc::ServerContext;
@@ -18,9 +24,12 @@ namespace feather {
 
 class IngestService final : public Ingest::Service {
  public:
-  explicit IngestService(absl::Duration work_delay) : work_delay_(work_delay) {}
+  explicit IngestService(absl::Duration work_delay, prometheus::Counter& req_counter, prometheus::Histogram& latency_hist) : work_delay_(work_delay), req_counter_(req_counter), latency_hist_(latency_hist) {}
 
   Status Ingest(ServerContext* ctx, const Event* req, Ack* resp) override {
+
+    const auto t0 = absl::Now();
+
     // If the client timeout expires, gRPC may cancel the RPC; detect it.
     if (ctx->IsCancelled()) {
       spdlog::warn("Server: request cancelled before start");
@@ -42,12 +51,19 @@ class IngestService final : public Ingest::Service {
 
     resp->set_ok(true);
     resp->set_msg("ok");
-    spdlog::info("Server: replying Ack(ok=true)");
+
+    req_counter_.Increment();
+    const double ms = absl::ToDoubleMilliseconds(absl::Now()-t0);
+    latency_hist_.Observe(ms);
+
+    spdlog::info("Server: reply ok (latency {:.3f} ms)", ms);
     return Status::OK;
   }
 
  private:
   absl::Duration work_delay_;
+  prometheus::Counter&   req_counter_;
+  prometheus::Histogram& latency_hist_;
 };
 
 }  // namespace feather
@@ -57,13 +73,41 @@ int main(int argc, char** argv) {
   int sleep_ms = 0;
   if (argc > 1) sleep_ms = std::stoi(argv[1]);
 
+  // --- Prometheus registry + exposer on :8080 ---
+  auto registry = std::make_shared<prometheus::Registry>();
+  // Families
+  auto& reqs_family = prometheus::BuildCounter()
+                          .Name("ingest_requests_total")
+                          .Help("Total number of ingest RPCs received")
+                          .Register(*registry);
+  auto& lat_family  = prometheus::BuildHistogram()
+                          .Name("ingest_latency_ms")
+                          .Help("Ingest RPC latency in milliseconds")
+                          .Register(*registry);
+
+  // pick ms buckets that align with your SLOs
+  const std::vector<double> kLatencyMsBuckets{
+      0.5, 1, 2, 5, 10, 20, 50, 100, 200, 500, 1000
+  };
+
+  // Single unlabeled metrics for now
+  auto& reqs_counter = reqs_family.Add({});
+  auto& lat_hist     = lat_family.Add({}, kLatencyMsBuckets);
+
+  // Expose /metrics on 0.0.0.0:8080 (Prometheus pull)
+  prometheus::Exposer exposer{"0.0.0.0:8080"};
+  exposer.RegisterCollectable(registry);
+
   std::string addr = "0.0.0.0:50051";
   spdlog::info("Starting server on {} (sleep_ms={})", addr, sleep_ms);
+  spdlog::info("Prometheus /metrics on 0.0.0.0:8080");
+
+  feather::IngestService service(absl::Milliseconds(sleep_ms), reqs_counter, lat_hist);
+
 
   grpc::EnableDefaultHealthCheckService(true);
   // grpc::reflection::InitProtoReflectionServerBuilderPlugin();
 
-  feather::IngestService service(absl::Milliseconds(sleep_ms));
 
   ServerBuilder builder;
   builder.AddListeningPort(addr, grpc::InsecureServerCredentials());

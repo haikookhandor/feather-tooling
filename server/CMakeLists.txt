@@ -5,5 +5,7 @@ target_link_libraries(feather_server
     spdlog::spdlog
     absl::time
     gRPC::grpc++   
+    prometheus-cpp::core
+    prometheus-cpp::pull
 )
 target_compile_features(feather_server PRIVATE cxx_std_20)

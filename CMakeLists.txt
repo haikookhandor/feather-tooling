@@ -8,6 +8,8 @@ find_package(gRPC CONFIG REQUIRED)
 
 # Homebrew Abseil
 find_package(absl CONFIG REQUIRED)
+# Prometheus C++ client
+find_package(prometheus-cpp CONFIG REQUIRED)
 
 if(NOT CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE Release CACHE STRING "Build type" FORCE)
