@@ -10,6 +10,7 @@ find_package(gRPC CONFIG REQUIRED)
 find_package(absl CONFIG REQUIRED)
 # Prometheus C++ client
 find_package(prometheus-cpp CONFIG REQUIRED)
+find_package(onnxruntime CONFIG REQUIRED)
 
 if(NOT CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE Release CACHE STRING "Build type" FORCE)
@@ -67,3 +68,4 @@ add_subdirectory(bench)
 add_subdirectory(app)
 add_subdirectory(tests)
 add_subdirectory(lib)
+add_subdirectory(ort)
